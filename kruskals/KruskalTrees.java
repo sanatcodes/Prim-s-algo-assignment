@@ -32,7 +32,7 @@ class Edge {
 
 class Heap
 {
-	private int[] h;    //heap array 
+	public int[] h;    //heap array 
     int N, Nmax;
     Edge[] edge;    //array  of edges
 
@@ -231,7 +231,7 @@ class Graph
 **********************************************************/
 public Edge[] MST_Kruskal() 
 {
-    int ei;
+    int ei, i = 0;
     Edge e;
     int uSet, vSet;
     UnionFindSets partition;
@@ -250,10 +250,10 @@ public Edge[] MST_Kruskal()
     partition.showSets();
     System.out.println("");
     
-    for(int i = 0; i < V-1; i++)
+    while(i < V-1)
     {
-        uSet = edge[heap.h[1].u];
-        vSet = edge[heap.h[1].v];
+        uSet = edge[heap.h[1]].u;
+        vSet = edge[heap.h[1]].v;
 
         //if uSet and Vset are not part of the same set, then call union to combine 
         if(partition.findSet(uSet) != partition.findSet(vSet))
@@ -270,6 +270,7 @@ public Edge[] MST_Kruskal()
             partition.showSets();
             System.out.println("");
 
+            i++;
 
         }
         //remove from the heap, if both belong to the same set
