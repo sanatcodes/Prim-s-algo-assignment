@@ -186,6 +186,34 @@ class GraphLists
             System.out.println("");
     }
 
+    public void DFSutil( int s)
+    {
+        System.out.println("Starting Depth First Search ");
+        id = 0;
+
+        for(int i = 0; i < V; i++)
+        {
+            visited[i] = 0;
+        }
+        dfVisit(0,s);
+
+    }
+
+    private void dfVisit(int prev, int v)
+    {
+        visited[v] = ++id;
+
+        System.out.println("visited Vertex" + toChar(v) + "along" + toChar(prev) + "----" + toChar(v));
+
+        for(int u = 1; u <= v; u++)
+        {
+            if(visited[u] == 0 && adj[u].wgt != 0)
+            {
+                dfVisit(v,u);
+            }
+        }
+    }
+
     
 }// end of class 
 
@@ -200,7 +228,7 @@ class PrimLists {
         
         g.display();             
                 
-        //g.DF(s);
+        g.DFSutil(s);
         
         // g.BF(s);
         
