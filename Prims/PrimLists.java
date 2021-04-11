@@ -141,11 +141,10 @@ class GraphLists
             //adds v to the MST
             v = pq.remove();
 
-            //marks v as now in the MST
-            dist[v] = -dist[v];
-
             System.out.println("Adding Edge " + toChar(parent[v]) + "--(" + dist[v] + ")--" + toChar(v));
 
+            //marks v as now in the MST
+            dist[v] = -dist[v];
 
             for (t = adj[v]; t != z; t = t.next)
             {
@@ -195,7 +194,7 @@ class PrimLists {
     public static void main(String[] args) throws IOException
     {
         int s = 2;
-        String fname = "wGraph3.txt";               
+        String fname = "wGraph1.txt";               
 
         GraphLists g = new GraphLists(fname);
         
@@ -203,7 +202,7 @@ class PrimLists {
                 
         //g.DF(s);
         
-        //g.DF_iteration(s);
+        // g.BF(s);
         
         g.MST_Prim(s);
         
@@ -324,4 +323,109 @@ class Heap
         }
     }
 
-}
+    
+
+}// end main class 
+
+//Queue class for implimenting BF traversal 
+
+class Queue 
+{
+
+	private class Node 
+	{
+		int data;
+		Node next;
+	}
+
+	Node z;
+	Node head;
+	Node tail;
+
+	public Queue() 
+	{
+		z = new Node(); 
+		z.next = z;
+		head = z;  
+		tail = null;
+	}
+
+
+	public void display() 
+	{
+		System.out.println("\nThe queue values are:\n");
+
+		Node temp = head;
+		while( temp != temp.next) 
+		{
+			System.out.print( temp.data + "  ");
+			temp = temp.next;
+		}
+		System.out.println("\n");
+	}
+
+
+	public void enQueue( int x) 
+	{
+		Node temp;
+
+		temp = new Node();
+		temp.data = x;
+		temp.next = z;
+
+		if(head == z)    // case of empty list
+		head = temp;
+		else                // case of list not empty
+		tail.next = temp;
+
+		tail = temp;        // new node is now at the tail
+	}
+
+
+	// assume the queue is non-empty when this method is called
+	public int deQueue() 
+	{
+		int data = head.data;
+		head = head.next;
+
+		return data;
+	}
+
+
+	public boolean isEmpty() 
+	{
+		if (head == null)
+		return true;
+		else
+		return false;
+	}
+	
+	public boolean isMember(int x)
+	{
+		Node d = head;
+		
+		while (d != tail)
+		{
+			if(d.data == x)
+				return true;
+			
+			d = d.next;
+		}
+		
+		return false;
+	}
+	
+	public int size()
+	{
+		Node d = head;
+		int x = 0;
+		
+		while (d != tail.next)
+		{	
+			d = d.next;
+			x++;
+		}
+		
+		return x;
+	}
+} // end of Queue class
