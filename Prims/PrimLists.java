@@ -127,8 +127,7 @@ class GraphLists
         }
 
         dist[s] = 0;
-        parent[s] = s;
-        dist[0] = 0;
+        
 
 
         Heap pq =  new Heap(V, dist, hPos);
@@ -141,35 +140,36 @@ class GraphLists
             //adds v to the MST
             v = pq.remove();
 
+            wgt_sum += dist[v];
+
             //marks v as now in the MST
-            dist[v] = -dist[v];
+            dist[v] = 0;
 
             for (t = adj[v]; t != z; t = t.next)
             {
-                if(t.wgt < dist[t.vert] && dist[t.vert] > 0)
+                u = t.vert;
+                wgt = t.wgt;
+
+                if(wgt < dist[u] && dist[u] > 0)
                 {
-                    dist[t.vert] = t.wgt;
-                    parent[t.vert] = v;
+                    
+                    dist[u] = wgt;
+                    parent[u] = v;
 
                     //if the vertex is empty, insert next Vertex
-                    if(hPos[t.vert] == 0)
+                    if(hPos[u] == 0)
                     {
-                        pq.insert(t.vert);
+                        pq.insert(u);
                     }
                     else
                     {
-                        pq.siftUp(hPos[t.vert]);
+                        pq.siftUp(hPos[u]);
                     }
                 }
             }
             
         }
 
-        for(int i = 0; i < dist.length; i++) {
-        	 wgt_sum += dist[i];
-        }
-
-        wgt_sum = wgt_sum * -1;
 
         System.out.print("\n\nWeight of MST = " + wgt_sum + "\n");
         
