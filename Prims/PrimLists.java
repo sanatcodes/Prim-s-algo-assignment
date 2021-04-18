@@ -141,8 +141,6 @@ class GraphLists
             //adds v to the MST
             v = pq.remove();
 
-            System.out.println("Adding Edge " + toChar(parent[v]) + "--(" + dist[v] + ")--" + toChar(v));
-
             //marks v as now in the MST
             dist[v] = -dist[v];
 
@@ -183,38 +181,47 @@ class GraphLists
             System.out.print("\n\nMinimum Spanning tree parent array is:\n");
             for(int v = 1; v <= V; ++v)
                 System.out.println(toChar(v) + " -> " + toChar(mst[v]));
-            System.out.println("");
+            System.out.println("\n");
     }
 
     public void DFSutil( int s)
     {
         System.out.println("Starting Depth First Search ");
         id = 0;
-
+        visited = new int[V+1];
         for(int i = 0; i < V; i++)
         {
             visited[i] = 0;
         }
+        
+        System.out.print("\nDepth First Graph traversal\n");
+        System.out.println("Starting with Vertex " + toChar(s));
         dfVisit(0,s);
+        System.out.println("\n\n");
 
     }
 
     private void dfVisit(int prev, int v)
     {
+        int temp;
+        Node t;
+        
         visited[v] = ++id;
+        System.out.print(" \n DF just visited vertex " + toChar(v) + " along " + toChar(prev) + "--" + toChar(v));
 
-        System.out.println("visited Vertex" + toChar(v) + "along" + toChar(prev) + "----" + toChar(v));
-
-        for(int u = 1; u <= v; u++)
+        for(t = adj[v]; t != t.next; t = t.next)
         {
-            if(visited[u] == 0 && adj[u].wgt != 0)
+            temp = t.vert;
+
+            if(visited[temp] == 0 && adj[temp].wgt != 0)
             {
-                dfVisit(v,u);
-            }
-        }
+                dfVisit(v,temp);
+
+            }//end if 
+
+        }//end for 
     }
 
-    
 }// end of class 
 
 class PrimLists {
