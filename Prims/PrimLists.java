@@ -222,6 +222,54 @@ class GraphLists
         }//end for 
     }
 
+    public void BF (int s){
+
+
+        //initialise node t
+        Node t;
+        int temp = 0;
+
+        //initialise Queue 
+        Queue que = new Queue();
+
+        //initialise visited array to 0
+        for(int i = 1; i <= V; i++)
+        {
+            visited[i] = 0;
+        }
+
+        System.out.print("\n");
+		System.out.print("\nBreadth First Search");
+
+        //mark current node as visited
+        que.enQueue(s);
+
+
+        while(!que.isEmpty()){
+
+            //deQueue the vertex and print value 
+            s = que.deQueue();
+            visited[s] = ++temp;
+            System.out.print("\nBF just visited vertex " + toChar(s));
+
+            //get adjacent vertices from adjacency list
+            //mark unvisited vertices and enQueue them
+
+            for(t = adj[s]; t.next != t.next; t = t.next){
+
+                int u = t.vert;
+                    
+                    if (visited[u] == 0){
+                        visited[u] = temp;
+                        que.enQueue(u);
+                    }//end if 
+
+            }//end for 
+                
+        }//end BF
+
+    }
+
 }// end of class 
 
 class PrimLists {
@@ -237,7 +285,7 @@ class PrimLists {
                 
         g.DFSutil(s);
         
-        // g.BF(s);
+        g.BF(s);
         
         g.MST_Prim(s);
         
