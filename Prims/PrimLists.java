@@ -285,7 +285,7 @@ class PrimLists {
                 
         g.DFSutil(s);
         
-        g.BF(s);
+        // g.BF(s);
         
         g.MST_Prim(s);
         
