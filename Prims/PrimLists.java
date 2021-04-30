@@ -143,14 +143,14 @@ class GraphLists
             wgt_sum += dist[v];
 
             //marks v as now in the MST
-            dist[v] = 0;
+            dist[v] = -dist[v];
 
             for (t = adj[v]; t != z; t = t.next)
             {
                 u = t.vert;
                 wgt = t.wgt;
 
-                if(wgt < dist[u] && dist[u] > 0)
+                if(wgt < dist[u])
                 {
                     
                     dist[u] = wgt;
@@ -227,7 +227,7 @@ class GraphLists
 
         //initialise node t
         Node t;
-        int temp = 0;
+        int v,id = 0;
 
         //initialise Queue 
         Queue que = new Queue();
@@ -240,33 +240,46 @@ class GraphLists
 
         System.out.print("\n");
 		System.out.print("\nBreadth First Search");
+        
+        // insert this line here
+        System.out.print("\nBredth first searc is starting from vertex " + toChar(s));
 
         //mark current node as visited
         que.enQueue(s);
 
-
         while(!que.isEmpty()){
 
-            //deQueue the vertex and print value 
-            s = que.deQueue();
-            visited[s] = ++temp;
-            System.out.print("\nBF just visited vertex " + toChar(s));
-
-            //get adjacent vertices from adjacency list
-            //mark unvisited vertices and enQueue them
-
-            for(t = adj[s]; t.next != t.next; t = t.next){
-
-                int u = t.vert;
-                    
+            //deQueue the vertex and prints value 
+            v = que.deQueue();
+            if(visited[v] == 0)
+            {
+                visited[v] = ++id;
+                // error, not starting here
+                System.out.print("\nBredth first searc is starting from vertex " + toChar(v));
+    
+                //get adjacent vertices from adjacency list
+                //mark unvisited vertices and enQueue them
+    
+                for(t = adj[v]; t.next != t.next; t = t.next){ //  error in loop termination
+    
+                    int u = t.vert;
+                        
                     if (visited[u] == 0){
-                        visited[u] = temp;
-                        que.enQueue(u);
-                    }//end if 
 
-            }//end for 
-                
-        }//end BF
+                        if(!(que.isMember(u)))
+                        {   
+                            que.enQueue(u);
+                            // error here vertex u has not yet been visited, only added to queue
+                            System.out.println("BF visited vertex " + toChar(u) + " along " + toChar(s) + "--" + toChar(u));
+                        }
+                       
+                    }//end if 
+    
+                }//end for 
+
+            }// end if 
+            
+        }//end while 
 
     }
 
@@ -276,7 +289,7 @@ class PrimLists {
 
     public static void main(String[] args) throws IOException
     {
-        int s = 2;
+        int s = 12;
         String fname = "wGraph1.txt";               
 
         GraphLists g = new GraphLists(fname);
@@ -285,7 +298,7 @@ class PrimLists {
                 
         g.DFSutil(s);
         
-        // g.BF(s);
+        g.BF(s);
         
         g.MST_Prim(s);
         
@@ -335,7 +348,7 @@ class Heap
  
         while (dist[v] < dist[a[k/2]])
         {
-            hPos[a[k]] = k;
+            hPos[a[k]] = k;  // error
             a[k] = a[k/2];
             k = k / 2;
         }
@@ -366,7 +379,7 @@ class Heap
                 break;
             }
 
-            hPos[ a[k] ] = j;
+            hPos[ a[k] ] = j;  // error
 
             a[k] = a[j];
 
@@ -477,10 +490,10 @@ class Queue
 
 	public boolean isEmpty() 
 	{
-		if (head == null)
-		return true;
-		else
-		return false;
+		// if (head == null)
+		// return true;
+		// else
+		return head == z;
 	}
 	
 	public boolean isMember(int x)
