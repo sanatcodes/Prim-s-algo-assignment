@@ -226,7 +226,7 @@ class GraphLists
 
 
         //initialise node t
-        Node t;
+        // Node t;
         int v,id = 0;
 
         //initialise Queue 
@@ -238,46 +238,36 @@ class GraphLists
             visited[i] = 0;
         }
 
-        System.out.print("\n");
 		System.out.print("\nBreadth First Search");
         
-        // insert this line here
-        System.out.print("\nBredth first searc is starting from vertex " + toChar(s));
 
         //mark current node as visited
         que.enQueue(s);
+        visited[s] = ++id;
 
         while(!que.isEmpty()){
 
             //deQueue the vertex and prints value 
             v = que.deQueue();
-            if(visited[v] == 0)
-            {
-                visited[v] = ++id;
-                // error, not starting here
-                System.out.print("\nBredth first searc is starting from vertex " + toChar(v));
+            System.out.print("\nBredth first search is starting from vertex " + toChar(v) + "\n");
+                
     
                 //get adjacent vertices from adjacency list
                 //mark unvisited vertices and enQueue them
     
-                for(t = adj[v]; t.next != t.next; t = t.next){ //  error in loop termination
+                for(Node t = adj[v]; t != t.next; t = t.next){ //  error in loop termination
     
                     int u = t.vert;
                         
                     if (visited[u] == 0){
 
-                        if(!(que.isMember(u)))
-                        {   
-                            que.enQueue(u);
-                            // error here vertex u has not yet been visited, only added to queue
-                            System.out.println("BF visited vertex " + toChar(u) + " along " + toChar(s) + "--" + toChar(u));
-                        }
-                       
+                        que.enQueue(u);
+                        visited[u] = 1;
+                        System.out.println("BF visited vertex " + toChar(u) + " along " + toChar(s) + "--" + toChar(u));
+                        
                     }//end if 
     
-                }//end for 
-
-            }// end if 
+                }//end for
             
         }//end while 
 
@@ -346,17 +336,21 @@ class Heap
         int v = a[k];
 
  
-        while (dist[v] < dist[a[k/2]])
+        a[0] = 0;
+        dist[0] = Integer.MIN_VALUE;
+        //checking if the vertex is smaller to sift it up the heap
+        while(dist[v] < dist[a[k/2]])
         {
-            hPos[a[k]] = k;  // error
             a[k] = a[k/2];
-            k = k / 2;
+            hPos[a[k]] = k;
+            k = k/2;
+        
         }
+
         a[k] = v;
         hPos[v] = k;
-        
-    }
 
+    }
 
     public void siftDown( int k) 
     {
@@ -366,25 +360,32 @@ class Heap
         
         // code yourself 
         // must use hPos[] and dist[] arrays
-        while (k * 2 < N)
+        while(k <= N/2)
         {
-            j = k * 2;
-            if(j < N && dist[ a[j] ] > dist[ a[j+1] ])
+            //We firstly set J to be double that of k
+            j = 2*k;
+            //Incrementing j if the priority of a[j] is larger then a[j+1] and if j is less then the heap size
+            if(j < N && dist[a[j + 1]] < dist[a[j]]) 
             {
                 j++;
             }
-
-            if(dist[v] <= dist[ a[j]])
+            //breaks the loop once the distance of the Vertex has equal or less priority then a[j]
+            if(dist[v] <= dist[a[j]])
             {
                 break;
             }
 
-            hPos[ a[k] ] = j;  // error
+            /*
+                Child is asisgned to the parents position and then
+                the position of the last child is updated and the vertex is 
+                assigned a new position
+            */
 
             a[k] = a[j];
-
+            hPos[v] = k;
             k = j;
-        }
+
+        }//end while
 
         a[k] = v;
         hPos[v] = k;
